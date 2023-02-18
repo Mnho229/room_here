@@ -5,7 +5,7 @@ To start your Phoenix server:
 - Install dependencies with `mix deps.get`
 - Create and migrate your database with `mix ecto.setup`
 - Run `make start` to start the docker container containing the Postgres DB
-- Make sure you have a `.envrc` file containing the needed keys for `config.exs` (direnv is helpful here for your local environment)
+- Make sure you have a `.envrc` file containing the needed keys for `dev.exs` (direnv is helpful here for your local environment)
 - Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
 To spin down your Phoenix server:
