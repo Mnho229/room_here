@@ -8,10 +8,10 @@ ifndef DC
 	$(error "docker-compose is not installed")
 endif
 ifeq ($(UNAME_S),Linux)
-	@sudo docker-compose --file .development/docker-compose.yml up -d
+	@sudo docker compose --file .development/docker-compose.yml up -d
 endif
 ifeq ($(UNAME_S),Darwin)
-	@docker-compose --file .development/docker-compose.yml up -d
+	@docker compose --file .development/docker-compose.yml up -d
 endif
 
 stop:
@@ -19,8 +19,8 @@ ifndef DC
 	$(error "docker-compose is not installed")
 endif
 ifeq ($(UNAME_S),Linux)
-	@sudo docker-compose --file .development/docker-compose.yml stop
+	@sudo docker compose --file .development/docker-compose.yml stop
 endif
 ifeq ($(UNAME_S),Darwin)
-	@docker-compose --file .development/docker-compose.yml stop
+	@docker compose --file .development/docker-compose.yml stop
 endif
