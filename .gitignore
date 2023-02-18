@@ -32,3 +32,5 @@ room_here-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/temp/
+.envrc

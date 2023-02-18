@@ -2,9 +2,9 @@ import Config
 
 # Configure your database
 config :room_here, RoomHere.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  hostname: System.get_env("POSTGRES_HOST"),
   database: "room_here_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
