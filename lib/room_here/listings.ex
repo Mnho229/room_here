@@ -51,6 +51,7 @@ defmodule RoomHere.Listings do
   """
   def create_property(attrs \\ %{}) do
     %Property{}
+    |> Map.put(:slug, generate_property_slug())
     |> Property.changeset(attrs)
     |> Repo.insert()
   end
@@ -100,5 +101,11 @@ defmodule RoomHere.Listings do
   """
   def change_property(%Property{} = property, attrs \\ %{}) do
     Property.changeset(property, attrs)
+  end
+
+  defp generate_property_slug do
+    :crypto.strong_rand_bytes(16)
+    |> Base.url_encode64()
+    |> binary_part(0, 16)
   end
 end

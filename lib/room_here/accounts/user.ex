@@ -2,11 +2,15 @@ defmodule RoomHere.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias RoomHere.Listings.Property
+
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+
+    many_to_many(:properties, Property, join_through: "property_users")
 
     timestamps()
   end
