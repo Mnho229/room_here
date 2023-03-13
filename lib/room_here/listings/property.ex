@@ -10,14 +10,32 @@ defmodule RoomHere.Listings.Property do
     field :slug, :string
     field :title, :string
 
+    has_many :property_user, RoomHere.PropertyUser
+
     timestamps()
   end
 
   @doc false
   def changeset(property, attrs) do
     property
-    |> cast(attrs, [:title, :minimum_term, :maximum_term, :description, :first_available_date, :slug])
-    |> validate_required([:title, :minimum_term, :maximum_term, :description, :first_available_date, :slug])
+    |> cast(attrs, [
+      :title,
+      :minimum_term,
+      :maximum_term,
+      :description,
+      :first_available_date,
+      :slug
+    ])
+    |> validate_required([
+      :title,
+      :minimum_term,
+      :maximum_term,
+      :description,
+      :first_available_date,
+      :slug
+    ])
     |> unique_constraint(:slug)
   end
+
+  # TODO: Custom assoc validation for property_user
 end

@@ -1,4 +1,4 @@
-defmodule RoomHereWeb.Properties.MyProperties do
+defmodule RoomHereWeb.Properties.Index do
   use RoomHereWeb, :live_component
 
   def mount(_params, _session, socket) do

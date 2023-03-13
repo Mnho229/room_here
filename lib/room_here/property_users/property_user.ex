@@ -7,8 +7,8 @@ defmodule RoomHere.PropertyUser do
   schema "property_users" do
     field :is_primary_user, :boolean, default: false
 
-    belongs_to :users, Accounts.User
-    belongs_to :properties, Listings.Property
+    belongs_to :user, Accounts.User
+    belongs_to :property, Listings.Property
 
     timestamps()
   end

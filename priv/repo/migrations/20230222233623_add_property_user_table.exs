@@ -7,6 +7,8 @@ defmodule RoomHere.Repo.Migrations.AddPropertyUserTable do
 
       add :user_id, references("users"), null: false
       add :property_id, references("properties"), null: false
+
+      timestamps()
     end
 
     create index("property_users", :user_id)
