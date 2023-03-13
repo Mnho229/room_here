@@ -10,7 +10,7 @@ defmodule RoomHere.Listings.Property do
     field :slug, :string
     field :title, :string
 
-    has_many :property_user, RoomHere.PropertyUser
+    has_many :property_users, RoomHere.PropertyUser
 
     timestamps()
   end

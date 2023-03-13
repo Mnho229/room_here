@@ -103,6 +103,12 @@ defmodule RoomHere.Listings do
     Property.changeset(property, attrs)
   end
 
+  def list_properties_with_user(user) do
+    Property.Query.base()
+    |> Property.Query.for_user(user)
+    |> Repo.all()
+  end
+
   defp generate_property_slug do
     :crypto.strong_rand_bytes(16)
     |> Base.url_encode64()
