@@ -23,7 +23,6 @@ module.exports = {
         warning: colors.yellow,
         info: colors.indigo,
         black: colors.black,
-        white: colors.white,
         gray: colors.slate,
       },
     },

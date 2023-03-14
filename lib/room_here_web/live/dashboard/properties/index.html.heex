@@ -1,26 +1,15 @@
-<section>
+<section class="pb-20">
   <h3>Create/Edit</h3>
   <.live_component id="properties_form_container" module={RoomHereWeb.Properties.FormComponent} />
-
+  
   <h3>List of properties here</h3>
-  <ul>
-    <li>
-      <div>
-        <p>Camera 1</p>
-        <p>In vogue</p>
-      </div>
-    </li>
-    <li>
-      <div>
-        <p>Camera 2</p>
-        <p>Not in vogue</p>
-      </div>
-    </li>
-    <li>
-      <div>
-        <p>Camera 3</p>
-        <p>Questionably in vogue</p>
-      </div>
-    </li>
-  </ul>
+  <%= for property <- @properties do %>
+    <ul class="bg-primary-100 p-4">
+      <li><%= property.title %></li>
+      <li><%= property.description %></li>
+      <li><%= property.minimum_term %></li>
+      <li><%= property.maximum_term %></li>
+      <li><%= property.first_available_date %></li>
+    </ul>
+  <% end %>
 </section>

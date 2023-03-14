@@ -9,19 +9,19 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body>
+  <body class="bg-white">
     <header>
-      <section class="container">
+      <.container max_width="md" class="flex items-center justify-between">
+        <a href="https://phoenixframework.org/" class="phx-logo">
+          <div class="flex items-center">
+            <.icon name={:home} class="h-14 text-primary-700 mr-2"/>
+            <span class="text-primary-700 text-5xl font-semibold">RoomHere</span>
+          </div>
+        </a>
         <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
           <%= render "_user_menu.html", assigns %>
         </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+      </.container>
     </header>
     <%= @inner_content %>
   </body>
