@@ -1,6 +1,6 @@
 <div>
   <.form
-    let={f}
+    :let={f}
     for={@changeset}
     id="property_form"
     phx-target={@myself}
@@ -8,29 +8,49 @@
     phx-submit="save"
 
   >
-    <%!-- TODO: Switch to Petal Components --%>
-    <%= label f, :title %>
-    <%= text_input f, :title, "phx-debounce": "6000" %>
-    <%= error_tag f, :title %>
+
+    <.form_field 
+      type="text_input"
+      form={f}
+      field={:title}
+      placeholder="Enter title here" 
+      label_class="text-gray-600"
+    />
   
-    <%= label f, :description %>
-    <%= text_input f, :description %>
-    <%= error_tag f, :description %>
+    <.form_field 
+      type="text_input"
+      form={f}
+      field={:description}
+      placeholder="Enter description here"
+      label_class="text-gray-600"
+    />
 
-    <%= label f, :minimum_term %>
-    <%= text_input f, :minimum_term %>
-    <%= error_tag f, :minimum_term %>
+    <.form_field 
+      type="number_input"
+      form={f}
+      field={:minimum_term}
+      placeholder="Enter minimum term here"
+      label_class="text-gray-600"
+    />
 
-    <%= label f, :maximum_term %>
-    <%= text_input f, :maximum_term %>
-    <%= error_tag f, :maximum_term %>
+    <.form_field 
+      type="number_input"
+      form={f}
+      field={:maximum_term}
+      placeholder="Enter maximum term here"
+      label_class="text-gray-600"
+    />
 
-    <%= label f, :first_available_date, "First Available Date" %>
-    <%= datetime_local_input f, :first_available_date %>
-    <%= error_tag f, :first_available_date %>
+    <.form_field 
+      type="datetime_local_input"
+      form={f}
+      field={:first_available_date}
+      placeholder="Enter first available date here"
+      label_class="text-gray-600"
+    />
 
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <.button type="submit" label="Submit" />
     </div>
   </.form>
 </div>

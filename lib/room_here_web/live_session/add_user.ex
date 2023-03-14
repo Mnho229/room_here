@@ -1,5 +1,6 @@
 defmodule RoomHereWeb.AddUser do
   import Phoenix.LiveView
+  import Phoenix.Component
   alias RoomHere.Accounts
 
   def on_mount(_, _params, %{"user_token" => user_token} = _session, socket) do

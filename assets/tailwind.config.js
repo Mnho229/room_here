@@ -1,20 +1,30 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 
+const colors = require("tailwindcss/colors");
 let plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./js/**/*.js", "../lib/*_web.ex", "../lib/*_web/**/*.*ex"],
+  content: [
+    "./js/**/*.js",
+    "../lib/*_web.ex",
+    "../lib/*_web/**/*.*ex",
+    "../deps/petal_components/**/*.*ex",
+  ],
   theme: {
     extend: {
       colors: {
         transparent: "",
         current: "currentColor",
-        black: "#212427",
-        old_rose: "#BB8588",
-        mint_cream: "#EDF4ED",
-        ultra_violet: "#5B507A",
-        air_force_blue: "#6494AA",
+        primary: colors.teal,
+        secondary: colors.cyan,
+        success: colors.green,
+        danger: colors.red,
+        warning: colors.yellow,
+        info: colors.indigo,
+        black: colors.black,
+        white: colors.white,
+        gray: colors.slate,
       },
     },
   },
