@@ -1,5 +1,7 @@
 # RoomHere
 
+An Elixir Phoenix implementation of SpareRoom! Currently in progress as of March 2023.
+
 To start your Phoenix server:
 
 - Install dependencies with `mix deps.get`
