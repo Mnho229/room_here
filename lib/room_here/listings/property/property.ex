@@ -15,6 +15,7 @@ defmodule RoomHere.Listings.Property do
     timestamps()
   end
 
+  # TODO: make sure slug is passed in
   @doc false
   def changeset(property, attrs) do
     property
@@ -31,8 +32,7 @@ defmodule RoomHere.Listings.Property do
       :minimum_term,
       :maximum_term,
       :description,
-      :first_available_date,
-      :slug
+      :first_available_date
     ])
     |> unique_constraint(:slug)
   end

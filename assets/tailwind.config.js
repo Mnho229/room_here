@@ -6,17 +6,17 @@ let plugin = require("tailwindcss/plugin");
 module.exports = {
   content: ["./js/**/*.js", "../lib/*_web.ex", "../lib/*_web/**/*.*ex"],
   theme: {
-    colors: {
-      transparent: "",
-      current: "currentColor",
-      black: "#212427",
-      blue: "#5497a7",
-      old_rose: "#BB8588",
-      mint_cream: "#EDF4ED",
-      ultra_violet: "#5B507A",
-      air_force_blue: "#6494AA",
+    extend: {
+      colors: {
+        transparent: "",
+        current: "currentColor",
+        black: "#212427",
+        old_rose: "#BB8588",
+        mint_cream: "#EDF4ED",
+        ultra_violet: "#5B507A",
+        air_force_blue: "#6494AA",
+      },
     },
-    extend: {},
   },
   plugins: [
     require("@tailwindcss/forms"),

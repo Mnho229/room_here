@@ -8,6 +8,7 @@
     phx-submit="save"
 
   >
+    <%!-- TODO: Switch to Petal Components --%>
     <%= label f, :title %>
     <%= text_input f, :title, "phx-debounce": "6000" %>
     <%= error_tag f, :title %>
@@ -24,11 +25,9 @@
     <%= text_input f, :maximum_term %>
     <%= error_tag f, :maximum_term %>
 
-    <%= label f, :first_available_date %>
-    <%= date_input f, :first_available_date %>
+    <%= label f, :first_available_date, "First Available Date" %>
+    <%= datetime_local_input f, :first_available_date %>
     <%= error_tag f, :first_available_date %>
-
-    <%= hidden_input f, :slug, value: "test" %>
 
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
