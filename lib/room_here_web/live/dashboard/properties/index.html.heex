@@ -1,6 +1,6 @@
 <section class="pb-20">
   <%!-- Extract this to a common component --%>
-  <nav class="mb-10">
+  <nav class="mb-8 mt-4">
     <ul class="flex space-x-8">
       <%= for {type, name} <- @nav_list do %>
         <%= if type == @live_action_type do %>
@@ -32,5 +32,13 @@
         module={RoomHereWeb.Properties.FormComponent} 
         property={@property}
       />
+
+    <%!-- Implement Modal --%>
+    <% :property_show -> %>
+      <p>This is where you retrieve the specific property, put it in a modal, and add a button for edit</p>
+
+    <% _live_action_type -> %>
+      <p>Nobody here but us trees!</p>
+
   <% end %>
 </section>

@@ -4,7 +4,10 @@ defmodule RoomHereWeb.Properties.Index do
   alias RoomHere.Listings
   alias RoomHere.Listings.Property
 
-  @property_tabs [{:property_index, "Index"}, {:property_new, "New Property"}]
+  @property_tabs [
+    {:property_index, "Index"},
+    {:property_new, "New Property"}
+  ]
 
   def mount(socket) do
     {:ok, socket}

@@ -1,7 +1,7 @@
 defmodule RoomHereWeb.DashboardLive do
   use RoomHereWeb, :live_user_dashboard
 
-  @property_tabs [:property_index, :property_new]
+  @property_tabs [:property_index, :property_new, :property_show]
 
   def mount(_params, _session, socket) do
     {:ok, socket}
