@@ -4,6 +4,8 @@ defmodule RoomHereWeb.Properties.Index do
   alias RoomHere.Listings
   alias RoomHere.Listings.Property
 
+  @property_tabs [{:property_index, "Index"}, {:property_new, "New Property"}]
+
   def mount(socket) do
     {:ok, socket}
   end
@@ -15,6 +17,7 @@ defmodule RoomHereWeb.Properties.Index do
       assigns
       |> Map.put(:properties, properties)
       |> Map.put(:property, get_property(assigns))
+      |> Map.put(:nav_list, @property_tabs)
 
     [assigns]
   end
