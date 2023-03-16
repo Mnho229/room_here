@@ -54,7 +54,7 @@ defmodule RoomHereWeb do
   def live_user_dashboard do
     quote do
       use Phoenix.LiveView,
-        layout: {RoomHereWeb.LayoutView, "user_dashboard.html"}
+        layout: {RoomHereWeb.LayoutView, :user_dashboard}
     end
   end
 

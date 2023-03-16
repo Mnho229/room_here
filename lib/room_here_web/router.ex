@@ -67,7 +67,9 @@ defmodule RoomHereWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :default, on_mount: RoomHereWeb.AddUser do
-      live "/", Dashboard
+      live "/", DashboardLive
+      live "/properties", DashboardLive, :property_index
+      live "/properties/new", DashboardLive, :property_new
     end
   end
 

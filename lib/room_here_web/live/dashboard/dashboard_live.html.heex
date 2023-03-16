@@ -1,0 +1,17 @@
+<div>
+  <%= case @category do %>
+
+    <% :property -> %>
+      <.live_component 
+        id="properties" 
+        module={RoomHereWeb.Properties.Index} 
+        user={@current_user}
+      />
+
+    <% :not_implemented -> %>
+      <p class="text-blue-700 mt-12 text-center">
+        The real place to be
+      </p>
+
+  <% end %>
+</div>
