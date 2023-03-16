@@ -1,10 +1,10 @@
 <ul class="text-right pt-2">
 <%= if @current_user do %>
   <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
+  <li><.link name="Settings" to={Routes.user_settings_path(@conn, :edit)} >Settings</.link></li>
+  <li><.link name="Log out" to={Routes.user_session_path(@conn, :delete)} method={:delete}>Log Out</.link></li>
 <% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+  <li><.link name="Register" to={Routes.user_registration_path(@conn, :new)} >Register</.link></li>
+  <li><.link name="Log in" to={Routes.user_session_path(@conn, :new)} >Log In</.link></li>
 <% end %>
 </ul>

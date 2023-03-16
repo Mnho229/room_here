@@ -12,6 +12,10 @@
     </ul>
   </nav>
 
+  <%= if @live_action_type == :property_index do %>
+    <DashboardComponents.property_modal target={@myself} />
+  <% end %>
+
   <%= case @live_action_type do %>
     <% :property_index -> %>
       <h3>List of properties here</h3>
@@ -32,10 +36,6 @@
         module={RoomHereWeb.Properties.FormComponent} 
         property={@property}
       />
-
-    <%!-- Implement Modal --%>
-    <% :property_show -> %>
-      <p>This is where you retrieve the specific property, put it in a modal, and add a button for edit</p>
 
     <% _live_action_type -> %>
       <p>Nobody here but us trees!</p>
