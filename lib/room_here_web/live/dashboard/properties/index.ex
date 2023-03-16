@@ -2,6 +2,7 @@ defmodule RoomHereWeb.Properties.Index do
   use RoomHereWeb, :live_component
 
   alias RoomHere.Listings
+  alias RoomHere.Listings.Property
 
   def mount(socket) do
     {:ok, socket}
@@ -10,11 +11,18 @@ defmodule RoomHereWeb.Properties.Index do
   def preload([assigns]) do
     properties = Listings.list_properties_with_user(assigns.user)
 
-    assigns = Map.put(assigns, :properties, properties)
+    assigns =
+      assigns
+      |> Map.put(:properties, properties)
+      |> Map.put(:property, get_property(assigns))
+
     [assigns]
   end
 
   def update(assigns, socket) do
     {:ok, assign(socket, assigns)}
   end
+
+  defp get_property(%{live_action_type: :property_new}), do: %Property{}
+  defp get_property(%{live_action_type: _}), do: %Property{}
 end

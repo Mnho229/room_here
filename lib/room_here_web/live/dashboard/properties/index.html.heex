@@ -1,6 +1,10 @@
 <section class="pb-20">
   <h3>Create/Edit</h3>
-  <.live_component id="properties_form_container" module={RoomHereWeb.Properties.FormComponent} />
+  <.live_component 
+    id="properties_form_container" 
+    module={RoomHereWeb.Properties.FormComponent} 
+    property={@property}
+  />
   
   <h3>List of properties here</h3>
   <%= for property <- @properties do %>

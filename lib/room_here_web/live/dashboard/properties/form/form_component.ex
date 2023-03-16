@@ -2,10 +2,9 @@ defmodule RoomHereWeb.Properties.FormComponent do
   use RoomHereWeb, :live_component
 
   alias RoomHere.Listings
-  alias RoomHere.Listings.Property
 
   def update(assigns, socket) do
-    changeset = Listings.change_property(%Property{})
+    changeset = Listings.change_property(assigns.property)
 
     socket =
       socket
@@ -16,11 +15,14 @@ defmodule RoomHereWeb.Properties.FormComponent do
   end
 
   def handle_event("validate", %{"property" => property_params} = _params, socket) do
-    changeset = Listings.change_property(%Property{}, property_params)
+    %{assigns: %{property: property}} = socket
 
-    IO.inspect(changeset, label: "Changeset")
+    changeset =
+      Listings.change_property(property, property_params)
+      |> Map.put(:action, :validate)
+      |> IO.inspect()
 
-    {:noreply, socket}
+    {:noreply, assign(socket, :changeset, changeset)}
   end
 
   def handle_event("save", _params, socket) do
