@@ -1,19 +1,23 @@
 <section class="pb-20">
-  <h3>Create/Edit</h3>
-  <.live_component 
-    id="properties_form_container" 
-    module={RoomHereWeb.Properties.FormComponent} 
-    property={@property}
-  />
-  
-  <h3>List of properties here</h3>
-  <%= for property <- @properties do %>
-    <ul class="bg-primary-100 p-4">
-      <li><%= property.title %></li>
-      <li><%= property.description %></li>
-      <li><%= property.minimum_term %></li>
-      <li><%= property.maximum_term %></li>
-      <li><%= property.first_available_date %></li>
-    </ul>
+  <%= case @live_action_type do %>
+    <% :property_index -> %>
+      <h3>List of properties here</h3>
+      <%= for property <- @properties do %>
+        <ul class="bg-primary-100 p-4">
+          <li><%= property.title %></li>
+          <li><%= property.description %></li>
+          <li><%= property.minimum_term %></li>
+          <li><%= property.maximum_term %></li>
+          <li><%= property.first_available_date %></li>
+        </ul>
+      <% end %>
+
+    <% :property_new -> %>
+      <h3>Create/Edit</h3>
+      <.live_component 
+        id="properties_form_container" 
+        module={RoomHereWeb.Properties.FormComponent} 
+        property={@property}
+      />
   <% end %>
 </section>
