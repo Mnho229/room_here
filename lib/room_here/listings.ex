@@ -5,8 +5,11 @@ defmodule RoomHere.Listings do
 
   import Ecto.Query, warn: false
   alias RoomHere.Repo
+  alias Ecto.Multi
 
   alias RoomHere.Listings.Property
+  alias RoomHere.Accounts.User
+  alias RoomHere.PropertyUser
 
   @doc """
   Returns the list of properties.
@@ -54,6 +57,24 @@ defmodule RoomHere.Listings do
     |> Map.put(:slug, generate_property_slug())
     |> Property.changeset(attrs)
     |> Repo.insert()
+  end
+
+  # Restrict to only related users
+  def create_property(%User{} = user, %Ecto.Changeset{} = changeset) do
+    changeset
+    |> Ecto.Changeset.put_change(:slug, generate_property_slug())
+    |> store_property(user)
+  end
+
+  defp store_property(%Ecto.Changeset{} = changeset, %User{} = user) do
+    Multi.new()
+    |> Multi.insert(:property, changeset)
+    |> Multi.insert(:property_user, fn %{property: property} ->
+      attrs = %{property: property, user: user, is_primary_user: true}
+      PropertyUser.changeset(%PropertyUser{}, attrs)
+    end)
+    |> Repo.transaction()
+    |> IO.inspect()
   end
 
   @doc """
