@@ -74,7 +74,6 @@ defmodule RoomHere.Listings do
       PropertyUser.changeset(%PropertyUser{}, attrs)
     end)
     |> Repo.transaction()
-    |> IO.inspect()
   end
 
   @doc """
