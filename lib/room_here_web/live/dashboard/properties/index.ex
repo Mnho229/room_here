@@ -52,9 +52,16 @@ defmodule RoomHereWeb.Properties.Index do
   defp view_tab(%{live_action_type: :property_show}), do: :property_index
   defp view_tab(%{live_action_type: live_action_type}), do: live_action_type
 
+  defp get_property(%{live_action_type: :property_edit} = assigns) do
+    %{properties: properties, params: %{"id" => str_id}} = assigns
+
+    str_id
+    |> String.to_integer()
+    |> then(&Enum.find(properties, nil, fn item -> item.id == &1 end))
+  end
+
   defp get_property(%{live_action_type: :property_show} = assigns) do
-    %{properties: properties, params: params} = assigns
-    %{"id" => str_id} = params
+    %{properties: properties, params: %{"id" => str_id}} = assigns
 
     str_id
     |> String.to_integer()

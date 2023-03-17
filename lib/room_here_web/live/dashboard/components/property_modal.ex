@@ -7,16 +7,21 @@ defmodule RoomHereWeb.DashboardLive.DashboardComponents do
   def property_modal(assigns) do
     ~H"""
     <.modal max_width="lg" title="Modal" close_modal_target={@target}>
-      <.p>Content</.p>
       <%!-- Make this cleaner somehow --%>
       <%= if is_nil(@property) do %>
         <.p>Nobody here but us trees!</.p>
       <% else %>
-        <.p><%= @property.title %></.p>
+        <ul class="text-white">
+          <li><%= @property.title %></li>
+          <li><%= @property.description %></li>
+          <li><%= @property.minimum_term %></li>
+          <li><%= @property.maximum_term %></li>
+          <li><%= @property.first_available_date %></li>
+        </ul>
       <% end %>
 
       <div class="flex justify-end">
-        <.button label="close" phx-click={PetalComponents.Modal.hide_modal(@target)} />
+        <.button label="Close" phx-click={PetalComponents.Modal.hide_modal(@target)} />
       </div>
     </.modal>
     """
