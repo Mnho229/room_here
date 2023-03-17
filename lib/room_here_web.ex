@@ -118,9 +118,9 @@ defmodule RoomHereWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: TeacherWeb.Endpoint,
-        router: TeacherWeb.Router,
-        statics: TeacherWeb.static_paths()
+        endpoint: RoomHereWeb.Endpoint,
+        router: RoomHereWeb.Router,
+        statics: RoomHereWeb.static_paths()
     end
   end
 
