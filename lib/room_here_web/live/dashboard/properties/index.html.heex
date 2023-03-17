@@ -12,11 +12,11 @@
     </ul>
   </nav>
 
-  <%= if @live_action_type == :property_index do %>
-    <DashboardComponents.property_modal target={@myself} />
+  <%= if @live_action_type == :property_show do %>
+    <DashboardComponents.property_modal target={@myself} property={@property} />
   <% end %>
 
-  <%= case @live_action_type do %>
+  <%= case @view_tab do %>
     <% :property_index -> %>
       <h3>List of properties here</h3>
       <%= for property <- @properties do %>
@@ -26,6 +26,9 @@
           <li><%= property.minimum_term %></li>
           <li><%= property.maximum_term %></li>
           <li><%= property.first_available_date %></li>
+          <li class="text-blue-600">
+            <.link patch={Routes.dashboard_path(@socket, :property_show, property.id)}>View</.link>
+          </li>
         </ul>
       <% end %>
 

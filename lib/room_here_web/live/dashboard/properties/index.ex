@@ -18,9 +18,11 @@ defmodule RoomHereWeb.Properties.Index do
   def preload([assigns]) do
     properties = Listings.list_properties_with_user(assigns.user)
 
+    # Revisit to make cleaner
+    assigns = Map.put(assigns, :properties, properties)
+
     assigns =
       assigns
-      |> Map.put(:properties, properties)
       |> Map.put(:property, get_property(assigns))
       |> Map.put(:nav_list, @property_tabs)
 
@@ -31,21 +33,10 @@ defmodule RoomHereWeb.Properties.Index do
     socket =
       socket
       |> assign(assigns)
-
-    # |> show_modal_on_show(assigns.live_action_type)
+      |> assign(:view_tab, view_tab(assigns))
 
     {:ok, socket}
   end
-
-  # ------------------------------------------------
-
-  # def show_modal_on_show(socket, :property_show) do
-  #   assign(socket, :modal_open?, true)
-  # end
-
-  # def show_modal_on_show(socket, _live_action_type) do
-  #   assign(socket, :modal_open?, false)
-  # end
 
   # ------------------------------------------------
 
@@ -56,6 +47,18 @@ defmodule RoomHereWeb.Properties.Index do
       |> push_patch(to: "/dashboard/properties")
 
     {:noreply, socket}
+  end
+
+  defp view_tab(%{live_action_type: :property_show}), do: :property_index
+  defp view_tab(%{live_action_type: live_action_type}), do: live_action_type
+
+  defp get_property(%{live_action_type: :property_show} = assigns) do
+    %{properties: properties, params: params} = assigns
+    %{"id" => str_id} = params
+
+    str_id
+    |> String.to_integer()
+    |> then(&Enum.find(properties, nil, fn item -> item.id == &1 end))
   end
 
   defp get_property(%{live_action_type: :property_new}), do: %Property{}

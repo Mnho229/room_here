@@ -7,8 +7,13 @@ defmodule RoomHereWeb.DashboardLive do
     {:ok, socket}
   end
 
-  def handle_params(_params, _url, socket) do
-    {:noreply, retrieve_tab_category(socket)}
+  def handle_params(params, _url, socket) do
+    socket =
+      socket
+      |> assign(:untreated_params, params)
+      |> retrieve_tab_category()
+
+    {:noreply, socket}
   end
 
   defp retrieve_tab_category(%{assigns: %{live_action: live_action}} = socket) do

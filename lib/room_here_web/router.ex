@@ -70,6 +70,7 @@ defmodule RoomHereWeb.Router do
       live "/", DashboardLive
       live "/properties", DashboardLive, :property_index
       live "/properties/new", DashboardLive, :property_new
+      live "/properties/:id", DashboardLive, :property_show
     end
   end
 
