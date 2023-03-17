@@ -17,6 +17,10 @@ defmodule RoomHereWeb do
   and import those modules here.
   """
 
+  def static_paths do
+    ~w(assets fonts images favicon.ico robots.txt)
+  end
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: RoomHereWeb
@@ -24,6 +28,8 @@ defmodule RoomHereWeb do
       import Plug.Conn
       import RoomHereWeb.Gettext
       alias RoomHereWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -96,8 +102,6 @@ defmodule RoomHereWeb do
       # Use all HTML functionality (forms, tags, etc)
       use PetalComponents
 
-      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      import Phoenix.LiveView.Helpers
       import Phoenix.Component
 
       # Import basic rendering functionality (render, render_layout, etc)
@@ -106,6 +110,17 @@ defmodule RoomHereWeb do
       import RoomHereWeb.ErrorHelpers
       import RoomHereWeb.Gettext
       alias RoomHereWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: TeacherWeb.Endpoint,
+        router: TeacherWeb.Router,
+        statics: TeacherWeb.static_paths()
     end
   end
 

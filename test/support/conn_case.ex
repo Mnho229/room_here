@@ -24,6 +24,8 @@ defmodule RoomHereWeb.ConnCase do
       import Phoenix.ConnTest
       import RoomHereWeb.ConnCase
 
+      use RoomHereWeb, :verified_routes
+
       alias RoomHereWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing

@@ -20,7 +20,7 @@ defmodule RoomHereWeb.Endpoint do
     at: "/",
     from: :room_here,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: RoomHereWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
