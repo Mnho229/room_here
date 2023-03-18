@@ -10,6 +10,7 @@ defmodule RoomHere.Listings.Property.Query do
     query
     |> join_property_user()
     |> filter_by_user(user)
+    |> preload([property: p], :property_users)
   end
 
   # ---------------------------------------
