@@ -19,7 +19,7 @@
   <%= case @view_tab do %>
     <% :property_index -> %>
       <h3 class="text-2xl font-semibold mb-4">Properties Connected to you</h3>
-      <%= for property <- @properties do %>
+      <%= for property <- @properties.primary do %>
         <ul class="bg-white p-4 mb-4 border-solid border border-secondary-200">
           <li class="mb-2 text-lg"><%= property.title %></li>
           <li class="mb-1"><%= property.description %></li>
