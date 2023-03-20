@@ -60,20 +60,10 @@ defmodule RoomHere.Listings do
   end
 
   # Restrict to only related users
-  def create_property(%User{} = user, %Ecto.Changeset{} = changeset) do
+  def upsert_property(%User{} = user, action, %Ecto.Changeset{} = changeset) do
     changeset
     |> Ecto.Changeset.put_change(:slug, generate_property_slug())
-    |> store_property(user)
-  end
-
-  defp store_property(%Ecto.Changeset{} = changeset, %User{} = user) do
-    Multi.new()
-    |> Multi.insert(:property, changeset)
-    |> Multi.insert(:property_user, fn %{property: property} ->
-      attrs = %{property: property, user: user, is_primary_user: true}
-      PropertyUser.changeset(%PropertyUser{}, attrs)
-    end)
-    |> Repo.transaction()
+    |> store_property(action, user)
   end
 
   @doc """
@@ -127,6 +117,24 @@ defmodule RoomHere.Listings do
     Property.Query.base()
     |> Property.Query.for_user(user)
     |> Repo.all()
+  end
+
+  defp store_property(%Ecto.Changeset{} = changeset, action, %User{} = user) do
+    Multi.new()
+    |> Multi.insert_or_update(:property, changeset)
+    |> maybe_create_primary_property_user(action, user)
+    |> Repo.transaction()
+  end
+
+  defp maybe_create_primary_property_user(%Multi{} = multi, :create, user) do
+    Multi.insert(multi, :property_user, fn %{property: property} ->
+      attrs = %{property: property, user: user, is_primary_user: true}
+      PropertyUser.changeset(%PropertyUser{}, attrs)
+    end)
+  end
+
+  defp maybe_create_primary_property_user(multi, :update, _) do
+    multi
   end
 
   defp generate_property_slug do
