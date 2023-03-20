@@ -24,17 +24,16 @@ defmodule RoomHereWeb.Properties.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  # TODO: Block Save button when changeset is not valid
   def handle_event("save", %{"property" => property_params}, socket) do
     with %{property: property, user: user, action: action} <- socket.assigns,
          %Ecto.Changeset{valid?: true} = changeset <-
            Listings.change_property(property, property_params),
          {:ok, _result} <- Listings.upsert_property(user, action, changeset) do
-      send(self(), :new_or_updated_property)
+      send(self(), {:property_form, :success})
       {:noreply, socket}
     else
-      bad_result ->
-        IO.inspect(bad_result, label: "Some error")
+      _bad_result ->
+        send(self(), {:property_form, :failure})
         {:noreply, socket}
     end
   end

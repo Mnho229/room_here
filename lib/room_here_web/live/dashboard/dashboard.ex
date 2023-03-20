@@ -28,9 +28,16 @@ defmodule RoomHereWeb.DashboardLive do
 
   # -------------------------------------
 
-  def handle_info(:new_or_updated_property, socket) do
+  def handle_info({:property_form, :success}, socket) do
     socket = put_flash(socket, :info, "This property has successfully been upserted.")
 
     {:noreply, push_patch(socket, to: "/dashboard/properties")}
+  end
+
+  def handle_info({:property_form, :failure}, socket) do
+    {
+      :noreply,
+      put_flash(socket, :info, "Something went wrong while saving.  Please try again later.")
+    }
   end
 end

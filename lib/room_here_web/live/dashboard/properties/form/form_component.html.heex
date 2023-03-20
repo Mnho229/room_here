@@ -6,7 +6,7 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save"
-
+    class="pb-2"
   >
 
     <.form_field 
@@ -54,8 +54,10 @@
       class="bg-white text-gray-600"
     />
 
-    <div>
-      <.button type="submit" label="Submit" />
+    <hr />
+
+    <div class="text-end mt-4">
+      <.button type="submit" label="Submit" disabled={!@changeset.valid?} />
     </div>
   </.form>
 </div>
