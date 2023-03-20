@@ -1,14 +1,11 @@
 <section class="pb-20">
-  <%!-- Extract this to a common component --%>
+  <%!-- Extract this to a common component and/or redesign to use verified routes --%>
   <nav class="mb-8 mt-4">
     <ul class="flex space-x-8">
-      <%= for {type, name} <- @nav_list do %>
-        <%= if type == @live_action_type do %>
-          <li><%= name %></li>
-        <% else %>
-          <li class="text-blue-500"><.link patch={Routes.dashboard_path(@socket, type)}><%= name %></.link></li>
-        <% end %>
-      <% end %>
+      <li :for={{type, name} <- @nav_list}>
+        <span :if={type == @live_action_type}><%= name %></span>
+        <.link :if={type != @live_action_type} class="text-blue-500" patch={Routes.dashboard_path(@socket, type)}><%= name %></.link>
+      </li>
     </ul>
   </nav>
 

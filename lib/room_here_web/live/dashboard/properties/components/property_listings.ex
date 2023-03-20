@@ -35,18 +35,14 @@ defmodule RoomHereWeb.PropertiesComponents do
   def property_modal(assigns) do
     ~H"""
     <.modal max_width="lg" title="Modal" close_modal_target={@target}>
-      <%!-- Make this cleaner somehow --%>
-      <%= if is_nil(@property) do %>
-        <.p>Nobody here but us trees!</.p>
-      <% else %>
-        <ul class="text-white">
-          <li><%= @property.title %></li>
-          <li><%= @property.description %></li>
-          <li><%= @property.minimum_term %></li>
-          <li><%= @property.maximum_term %></li>
-          <li><%= @property.first_available_date %></li>
-        </ul>
-      <% end %>
+      <.p :if={is_nil(@property)}>Nobody here but us trees!</.p>
+      <ul :if={!is_nil(@property)} class="text-white">
+        <li><%= @property.title %></li>
+        <li><%= @property.description %></li>
+        <li><%= @property.minimum_term %></li>
+        <li><%= @property.maximum_term %></li>
+        <li><%= @property.first_available_date %></li>
+      </ul>
 
       <div class="flex justify-end">
         <.button label="Close" phx-click={PetalComponents.Modal.hide_modal(@target)} />
