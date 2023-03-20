@@ -32,6 +32,8 @@
         id="properties_form_container" 
         module={RoomHereWeb.Properties.FormComponent} 
         property={@property}
+        user={@user}
+        action={:update}
       />
 
     <% :property_new -> %>
@@ -40,6 +42,8 @@
         id="properties_form_container" 
         module={RoomHereWeb.Properties.FormComponent} 
         property={@property}
+        user={@user}
+        action={:create}
       />
 
     <% _live_action_type -> %>

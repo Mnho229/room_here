@@ -20,14 +20,22 @@ defmodule RoomHereWeb.Properties.FormComponent do
     changeset =
       Listings.change_property(property, property_params)
       |> Map.put(:action, :validate)
-      |> IO.inspect()
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", _params, socket) do
-    IO.inspect("You have made it to to the save screen")
-
-    {:noreply, socket}
+  # TODO: Block Save button when changeset is not valid
+  def handle_event("save", %{"property" => property_params}, socket) do
+    with %{property: property, user: user, action: action} <- socket.assigns,
+         %Ecto.Changeset{valid?: true} = changeset <-
+           Listings.change_property(property, property_params),
+         {:ok, _result} <- Listings.upsert_property(user, action, changeset) do
+      send(self(), :new_or_updated_property)
+      {:noreply, socket}
+    else
+      bad_result ->
+        IO.inspect(bad_result, label: "Some error")
+        {:noreply, socket}
+    end
   end
 end

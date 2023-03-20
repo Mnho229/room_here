@@ -25,4 +25,12 @@ defmodule RoomHereWeb.DashboardLive do
         assign(socket, :category, :not_implemented)
     end
   end
+
+  # -------------------------------------
+
+  def handle_info(:new_or_updated_property, socket) do
+    socket = put_flash(socket, :info, "This property has successfully been upserted.")
+
+    {:noreply, push_patch(socket, to: "/dashboard/properties")}
+  end
 end
