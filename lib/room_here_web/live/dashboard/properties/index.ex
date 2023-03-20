@@ -5,7 +5,7 @@ defmodule RoomHereWeb.Properties.Index do
   alias RoomHere.Listings.Property
   alias RoomHere.PropertyUser
 
-  import RoomHereWeb.PropertiesComponents
+  import RoomHereWeb.PropertyComponents
 
   @property_tabs [
     {:property_index, "Index"},

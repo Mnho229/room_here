@@ -1,4 +1,4 @@
-defmodule RoomHereWeb.PropertiesComponents do
+defmodule RoomHereWeb.PropertyComponents do
   use RoomHereWeb, :component
 
   attr :properties, :list, required: true
