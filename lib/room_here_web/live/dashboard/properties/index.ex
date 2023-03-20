@@ -5,7 +5,7 @@ defmodule RoomHereWeb.Properties.Index do
   alias RoomHere.Listings.Property
   alias RoomHere.PropertyUser
 
-  alias RoomHereWeb.DashboardLive.DashboardComponents
+  import RoomHereWeb.PropertiesComponents
 
   @property_tabs [
     {:property_index, "Index"},
@@ -17,18 +17,19 @@ defmodule RoomHereWeb.Properties.Index do
   end
 
   def preload([assigns]) do
-    properties =
-      assigns.user
-      |> Listings.list_properties_with_user()
-      |> separate_properties_by_primary(assigns.user)
+    properties = Listings.list_properties_with_user(assigns.user)
 
-    # Revisit to make cleaner
-    assigns = Map.put(assigns, :properties, properties)
+    %{
+      primary: primary_properties,
+      non_primary: non_primary_properties
+    } = separate_properties_by_primary(properties, assigns.user)
 
     assigns =
       assigns
-      |> Map.put(:property, get_property(assigns))
+      |> Map.put(:property, get_property(assigns, properties))
       |> Map.put(:nav_list, @property_tabs)
+      |> Map.put(:primary_properties, primary_properties)
+      |> Map.put(:non_primary_properties, non_primary_properties)
 
     [assigns]
   end
@@ -74,24 +75,16 @@ defmodule RoomHereWeb.Properties.Index do
   defp view_tab(%{live_action_type: :property_show}), do: :property_index
   defp view_tab(%{live_action_type: live_action_type}), do: live_action_type
 
-  # TODO: Make this cleaner for new properties primary and non-primary
-  # Or perhaps reconsider new format to leverage liveview more
-  defp get_property(%{live_action_type: :property_edit} = assigns) do
-    %{properties: properties, params: %{"id" => str_id}} = assigns
+  defp get_property(%{live_action_type: :property_new}, _), do: %Property{}
+
+  defp get_property(%{live_action_type: live_action_type} = assigns, properties)
+       when live_action_type in [:property_edit, :property_show] do
+    %{params: %{"id" => str_id}} = assigns
 
     str_id
     |> String.to_integer()
-    |> then(&Enum.find(properties.primary, nil, fn item -> item.id == &1 end))
+    |> then(&Enum.find(properties, nil, fn item -> item.id == &1 end))
   end
 
-  defp get_property(%{live_action_type: :property_show} = assigns) do
-    %{properties: properties, params: %{"id" => str_id}} = assigns
-
-    str_id
-    |> String.to_integer()
-    |> then(&Enum.find(properties.primary, nil, fn item -> item.id == &1 end))
-  end
-
-  defp get_property(%{live_action_type: :property_new}), do: %Property{}
-  defp get_property(%{live_action_type: _}), do: %Property{}
+  defp get_property(%{live_action_type: _}, _), do: %Property{}
 end

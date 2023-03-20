@@ -13,25 +13,21 @@
   </nav>
 
   <%= if @live_action_type == :property_show do %>
-    <DashboardComponents.property_modal target={@myself} property={@property} />
+    <.property_modal target={@myself} property={@property} />
   <% end %>
 
   <%= case @view_tab do %>
     <% :property_index -> %>
-      <h3 class="text-2xl font-semibold mb-4">Properties Connected to you</h3>
-      <%= for property <- @properties.primary do %>
-        <ul class="bg-white p-4 mb-4 border-solid border border-secondary-200">
-          <li class="mb-2 text-lg"><%= property.title %></li>
-          <li class="mb-1"><%= property.description %></li>
-          <li><%= property.minimum_term %> months</li>
-          <li class="mb-2"><%= property.maximum_term %> months</li>
-          <li><%= property.first_available_date %></li>
-          <li class="text-blue-600 flex justify-end space-x-2">
-            <.button label="View" link_type="live_patch" to={Routes.dashboard_path(@socket, :property_show, property.id)} />
-            <.button label="Edit" link_type="live_patch" to={Routes.dashboard_path(@socket, :property_edit, property.id)} />
-          </li>
-        </ul>
-      <% end %>
+      <.property_listings 
+        properties={@primary_properties}
+        title="Properties Connected to you"
+        is_primary_user={true}
+      />
+      <.property_listings 
+        properties={@non_primary_properties}
+        title="Properties Only Associated With You"
+        is_primary_user={false}
+      />
 
     <% :property_edit -> %>
       <h2 class="text-3xl mb-4 font-semibold">Edit Property</h2>
