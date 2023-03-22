@@ -7,6 +7,12 @@ defmodule RoomHere.AccountsTest do
   alias RoomHere.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
+    test "Test user factory" do
+      user = RoomHere.Factory.build(:user)
+
+      IO.inspect(user)
+    end
+
     test "does not return the user if the email does not exist" do
       refute Accounts.get_user_by_email("unknown@example.com")
     end
