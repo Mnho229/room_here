@@ -20,6 +20,7 @@ defmodule RoomHere.Listings do
       [%Property{}, ...]
 
   """
+  @spec list_properties() :: [%Property{}]
   def list_properties do
     Repo.all(Property)
   end
@@ -38,6 +39,7 @@ defmodule RoomHere.Listings do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_property!(integer()) :: %Property{} | no_return()
   def get_property!(id), do: Repo.get!(Property, id)
 
   @doc """
@@ -52,6 +54,7 @@ defmodule RoomHere.Listings do
       {:error, %Ecto.Changeset{}}
 
   """
+  # TODO: Feed into Upsert with global staff user
   def create_property(attrs \\ %{}) do
     %Property{}
     |> Map.put(:slug, generate_property_slug())
@@ -60,6 +63,8 @@ defmodule RoomHere.Listings do
   end
 
   # Restrict to only related users
+  @spec upsert_property(%User{}, :create | :update, Ecto.Changeset.t()) ::
+          {:ok, %Property{}} | {:error, any()}
   def upsert_property(%User{} = user, action, %Ecto.Changeset{} = changeset) do
     changeset
     |> Ecto.Changeset.put_change(:slug, generate_property_slug())
@@ -78,6 +83,7 @@ defmodule RoomHere.Listings do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_property(%Property{}, map()) :: {:ok, any()} | {:error, any()}
   def update_property(%Property{} = property, attrs) do
     property
     |> Property.changeset(attrs)
@@ -96,6 +102,7 @@ defmodule RoomHere.Listings do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_property(%Property{}) :: {:ok, %Property{}} | {:error, %Ecto.Changeset{}}
   def delete_property(%Property{} = property) do
     Repo.delete(property)
   end
@@ -109,16 +116,19 @@ defmodule RoomHere.Listings do
       %Ecto.Changeset{data: %Property{}}
 
   """
+  @spec change_property(%Property{}, map()) :: %Ecto.Changeset{}
   def change_property(%Property{} = property, attrs \\ %{}) do
     Property.changeset(property, attrs)
   end
 
+  @spec list_properties_with_user(%User{}) :: [%Property{}]
   def list_properties_with_user(user) do
     Property.Query.base()
     |> Property.Query.for_user(user)
     |> Repo.all()
   end
 
+  @spec store_property(%Ecto.Changeset{}, atom(), %User{}) :: {:ok, any()} | {:error, any()}
   defp store_property(%Ecto.Changeset{} = changeset, action, %User{} = user) do
     Multi.new()
     |> Multi.insert_or_update(:property, changeset)
@@ -126,6 +136,8 @@ defmodule RoomHere.Listings do
     |> Repo.transaction()
   end
 
+  @spec maybe_create_primary_property_user(%Multi{}, atom(), %User{}) ::
+          %Multi{names: %{property_user: %Ecto.Changeset{}}} | %Multi{}
   defp maybe_create_primary_property_user(%Multi{} = multi, :create, user) do
     Multi.insert(multi, :property_user, fn %{property: property} ->
       attrs = %{property: property, user: user, is_primary_user: true}
@@ -137,6 +149,7 @@ defmodule RoomHere.Listings do
     multi
   end
 
+  @spec generate_property_slug() :: String.t()
   defp generate_property_slug do
     :crypto.strong_rand_bytes(16)
     |> Base.url_encode64()

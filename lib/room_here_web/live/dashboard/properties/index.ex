@@ -4,6 +4,7 @@ defmodule RoomHereWeb.Properties.Index do
   alias RoomHere.Listings
   alias RoomHere.Listings.Property
   alias RoomHere.PropertyUser
+  alias RoomHere.Accounts.User
 
   import RoomHereWeb.PropertyComponents
 
@@ -56,6 +57,7 @@ defmodule RoomHereWeb.Properties.Index do
 
   # -------------------------------------------------
 
+  @spec separate_properties_by_primary([%Property{}], %User{}) :: map()
   defp separate_properties_by_primary(properties, user) do
     Enum.reduce(properties, %{primary: [], non_primary: []}, fn property, acc ->
       case get_attached_property_user_from_property(user, property) do
@@ -68,13 +70,16 @@ defmodule RoomHereWeb.Properties.Index do
     end)
   end
 
+  @spec get_attached_property_user_from_property(%User{}, %Property{}) :: %PropertyUser{}
   defp get_attached_property_user_from_property(user, property) do
     Enum.find(property.property_users, &(&1.user_id == user.id))
   end
 
+  @spec view_tab(map()) :: atom()
   defp view_tab(%{live_action_type: :property_show}), do: :property_index
   defp view_tab(%{live_action_type: live_action_type}), do: live_action_type
 
+  @spec get_property(map(), [%Property{}]) :: %Property{}
   defp get_property(%{live_action_type: :property_new}, _), do: %Property{}
 
   defp get_property(%{live_action_type: live_action_type} = assigns, properties)

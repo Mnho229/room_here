@@ -16,6 +16,7 @@ defmodule RoomHereWeb.DashboardLive do
     {:noreply, socket}
   end
 
+  @spec retrieve_tab_category(Phoenix.LiveView.Socket.t()) :: Phoenix.LiveView.Socket.t()
   defp retrieve_tab_category(%{assigns: %{live_action: live_action}} = socket) do
     cond do
       live_action in @property_tabs ->
