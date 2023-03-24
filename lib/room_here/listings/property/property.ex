@@ -15,7 +15,8 @@ defmodule RoomHere.Listings.Property do
     timestamps()
   end
 
-  # TODO: make sure slug is passed in
+  # TODO: move slug creation to this core schema page
+  # TODO: Add validation for minimum and maximum terms
   @doc false
   def changeset(property, attrs) do
     property
@@ -36,6 +37,4 @@ defmodule RoomHere.Listings.Property do
     ])
     |> unique_constraint(:slug)
   end
-
-  # TODO: Custom assoc validation for property_user
 end

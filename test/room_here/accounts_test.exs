@@ -7,10 +7,10 @@ defmodule RoomHere.AccountsTest do
   alias RoomHere.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
-    test "Test user factory" do
-      user = RoomHere.Factory.build(:user)
+    test "Test factories overall" do
+      property = RoomHere.Factory.insert(:property_with_primary_user)
 
-      IO.inspect(user)
+      IO.inspect(property)
     end
 
     test "does not return the user if the email does not exist" do
