@@ -8,7 +8,14 @@ defmodule RoomHere.ListingsTest do
 
     import RoomHere.ListingsFixtures
 
-    @invalid_attrs %{description: nil, first_available_date: nil, maximum_term: nil, minimum_term: nil, slug: nil, title: nil}
+    @invalid_attrs %{
+      description: nil,
+      first_available_date: nil,
+      maximum_term: nil,
+      minimum_term: nil,
+      slug: nil,
+      title: nil
+    }
 
     test "list_properties/0 returns all properties" do
       property = property_fixture()
@@ -21,7 +28,14 @@ defmodule RoomHere.ListingsTest do
     end
 
     test "create_property/1 with valid data creates a property" do
-      valid_attrs = %{description: "some description", first_available_date: ~N[2023-02-21 22:05:00], maximum_term: 42, minimum_term: 42, slug: "some slug", title: "some title"}
+      valid_attrs = %{
+        description: "some description",
+        first_available_date: ~N[2023-02-21 22:05:00],
+        maximum_term: 42,
+        minimum_term: 42,
+        slug: "some slug",
+        title: "some title"
+      }
 
       assert {:ok, %Property{} = property} = Listings.create_property(valid_attrs)
       assert property.description == "some description"
@@ -38,7 +52,15 @@ defmodule RoomHere.ListingsTest do
 
     test "update_property/2 with valid data updates the property" do
       property = property_fixture()
-      update_attrs = %{description: "some updated description", first_available_date: ~N[2023-02-22 22:05:00], maximum_term: 43, minimum_term: 43, slug: "some updated slug", title: "some updated title"}
+
+      update_attrs = %{
+        description: "some updated description",
+        first_available_date: ~N[2023-02-22 22:05:00],
+        maximum_term: 43,
+        minimum_term: 43,
+        slug: "some updated slug",
+        title: "some updated title"
+      }
 
       assert {:ok, %Property{} = property} = Listings.update_property(property, update_attrs)
       assert property.description == "some updated description"
