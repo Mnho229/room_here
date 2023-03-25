@@ -15,8 +15,6 @@ defmodule RoomHere.Listings.Property do
     timestamps()
   end
 
-  # TODO: move slug creation to this core schema page
-  # TODO: Add validation for minimum and maximum terms
   @doc false
   def changeset(property, attrs) do
     property
