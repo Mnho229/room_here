@@ -15,17 +15,12 @@ defmodule RoomHere.Listings.Property do
     timestamps()
   end
 
+  @default_attrs ~w(title minimum_term maximum_term description first_available_date slug)a
+
   @doc false
   def changeset(property, attrs) do
     property
-    |> cast(attrs, [
-      :title,
-      :minimum_term,
-      :maximum_term,
-      :description,
-      :first_available_date,
-      :slug
-    ])
+    |> cast(attrs, @default_attrs)
     |> validate_required([
       :title,
       :minimum_term,
@@ -33,6 +28,7 @@ defmodule RoomHere.Listings.Property do
       :description,
       :first_available_date
     ])
+    |> validate_number(:minimum_term, less_than: attrs.maximum_term)
     |> unique_constraint(:slug)
   end
 end

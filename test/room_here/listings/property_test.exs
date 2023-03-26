@@ -16,6 +16,14 @@ defmodule RoomHere.Listings.PropertyTest do
       assert changeset.valid? == true
     end
 
+    test "Changeset failure on validation" do
+      params = RoomHere.Factory.params_for(:property, maximum_term: 1)
+
+      changeset = Property.changeset(%Property{}, params)
+
+      refute changeset.valid? == true
+    end
+
     test "changeset failure on unique slug" do
       %{slug: slug} = RoomHere.Factory.insert(:property)
 
