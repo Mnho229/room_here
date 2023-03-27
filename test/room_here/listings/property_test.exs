@@ -8,7 +8,7 @@ defmodule RoomHere.Listings.PropertyTest do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(RoomHere.Repo)
     end
 
-    test "changeset success on create" do
+    test "changeset success" do
       params = RoomHere.Factory.params_for(:property)
 
       changeset = Property.changeset(%Property{}, params)

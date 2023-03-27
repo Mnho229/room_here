@@ -132,15 +132,15 @@ defmodule RoomHere.Listings do
   defp store_property(%Ecto.Changeset{} = changeset, action, %User{} = user) do
     Multi.new()
     |> Multi.insert_or_update(:property, changeset)
-    |> maybe_create_primary_property_user(action, user)
+    |> maybe_create_primary_property_user(action, user.id)
     |> Repo.transaction()
   end
 
-  @spec maybe_create_primary_property_user(%Multi{}, atom(), %User{}) ::
+  @spec maybe_create_primary_property_user(%Multi{}, atom(), integer()) ::
           %Multi{names: %{property_user: %Ecto.Changeset{}}} | %Multi{}
-  defp maybe_create_primary_property_user(%Multi{} = multi, :create, user) do
+  defp maybe_create_primary_property_user(%Multi{} = multi, :create, user_id) do
     Multi.insert(multi, :property_user, fn %{property: property} ->
-      attrs = %{property: property, user: user, is_primary_user: true}
+      attrs = %{property_id: property.id, user_id: user_id, is_primary_user: true}
       PropertyUser.changeset(%PropertyUser{}, attrs)
     end)
   end
