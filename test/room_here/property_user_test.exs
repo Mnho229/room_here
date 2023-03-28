@@ -15,7 +15,7 @@ defmodule RoomHere.PropertyUserTest do
       }
     end
 
-    test "changeset success on first user", %{property: property, user: user} do
+    test "success on first user", %{property: property, user: user} do
       params =
         RoomHere.Factory.params_with_assocs(:property_user_primary, property: property, user: user)
 
@@ -24,7 +24,7 @@ defmodule RoomHere.PropertyUserTest do
       assert changeset.valid? == true
     end
 
-    test "changeset success on subsequent property users", %{property: property, user: user} do
+    test "success on subsequent property users", %{property: property, user: user} do
       RoomHere.Factory.insert(:property_user_primary, property: property)
 
       params = RoomHere.Factory.params_with_assocs(:property_user, property: property, user: user)
@@ -42,10 +42,12 @@ defmodule RoomHere.PropertyUserTest do
         |> RoomHere.Repo.get!(property.id)
         |> RoomHere.Repo.preload(:property_users)
 
+      Enum.map(property.property_users, &"property user id: #{&1.id}") |> IO.inspect()
+
       assert length(property.property_users) == 2
     end
 
-    test "changeset failure on lacking property", %{user: user} do
+    test "failure on lacking property", %{user: user} do
       params = RoomHere.Factory.params_with_assocs(:property_user_primary, user: user)
 
       changeset_errors =
@@ -56,7 +58,7 @@ defmodule RoomHere.PropertyUserTest do
       assert changeset_errors.property_id == ["can't be blank"]
     end
 
-    test "changeset failure on lacking user", %{property: property} do
+    test "failure on lacking user", %{property: property} do
       params =
         :property_user_primary
         |> RoomHere.Factory.params_with_assocs(property: property)
@@ -70,7 +72,7 @@ defmodule RoomHere.PropertyUserTest do
       assert changeset_errors.user_id == ["can't be blank"]
     end
 
-    test "changeset failure on unique constraint for user and property", %{
+    test "failure on unique constraint for user and property", %{
       property: property,
       user: user
     } do
@@ -93,7 +95,7 @@ defmodule RoomHere.PropertyUserTest do
       assert changeset_errors.user_id == ["has already been taken"]
     end
 
-    test "changeset failure on unique constraint for is_primary_user and property", %{
+    test "failure on unique constraint for is_primary_user and property", %{
       property: property,
       user: user
     } do
@@ -113,6 +115,38 @@ defmodule RoomHere.PropertyUserTest do
         |> errors_on()
 
       assert changeset_errors[:is_primary_user] == ["has already been taken"]
+    end
+
+    test "failure on foreign key constraint for user_id", %{property: property} do
+      params =
+        :property_user_primary
+        |> RoomHere.Factory.params_with_assocs(property: property)
+        |> Map.put(:user_id, 9029)
+
+      changeset_errors =
+        %PropertyUser{}
+        |> PropertyUser.changeset(params)
+        |> RoomHere.Repo.insert()
+        |> elem(1)
+        |> errors_on()
+
+      assert changeset_errors[:user_id] == ["does not exist"]
+    end
+
+    test "failure on foreign key constraint for property_id" do
+      params =
+        :property_user_primary
+        |> RoomHere.Factory.params_with_assocs()
+        |> Map.put(:property_id, 9029)
+
+      changeset_errors =
+        %PropertyUser{}
+        |> PropertyUser.changeset(params)
+        |> RoomHere.Repo.insert()
+        |> elem(1)
+        |> errors_on()
+
+      assert changeset_errors[:property_id] == ["does not exist"]
     end
   end
 end
