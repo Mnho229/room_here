@@ -17,6 +17,7 @@ defmodule RoomHere.Listings.Property do
 
   @default_attrs ~w(title minimum_term maximum_term description first_available_date slug)a
 
+  # TODO: Make more robust by not relying on attrs
   @doc false
   def changeset(property, attrs) do
     property
@@ -28,7 +29,7 @@ defmodule RoomHere.Listings.Property do
       :description,
       :first_available_date
     ])
-    |> validate_number(:minimum_term, less_than: attrs.maximum_term)
+    |> validate_number(:minimum_term, less_than_or_equal_to: attrs.maximum_term)
     |> unique_constraint(:slug)
   end
 end
