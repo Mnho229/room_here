@@ -1,5 +1,5 @@
 defmodule RoomHere.PropertyUserTest do
-  use RoomHere.DataCase
+  use RoomHere.DataCase, async: false
 
   alias RoomHere.PropertyUser
 
@@ -15,13 +15,34 @@ defmodule RoomHere.PropertyUserTest do
       }
     end
 
-    test "changeset success on create", %{property: property, user: user} do
+    test "changeset success on first user", %{property: property, user: user} do
       params =
         RoomHere.Factory.params_with_assocs(:property_user_primary, property: property, user: user)
 
       changeset = PropertyUser.changeset(%PropertyUser{}, params)
 
       assert changeset.valid? == true
+    end
+
+    test "changeset success on subsequent property users", %{property: property, user: user} do
+      RoomHere.Factory.insert(:property_user_primary, property: property)
+
+      params = RoomHere.Factory.params_with_assocs(:property_user, property: property, user: user)
+
+      new_property_user =
+        %PropertyUser{}
+        |> RoomHere.PropertyUser.changeset(params)
+        |> Repo.insert!()
+
+      assert new_property_user.user_id == user.id
+      assert new_property_user.property_id == property.id
+
+      property =
+        RoomHere.Listings.Property
+        |> RoomHere.Repo.get!(property.id)
+        |> RoomHere.Repo.preload(:property_users)
+
+      assert length(property.property_users) == 2
     end
 
     test "changeset failure on lacking property", %{user: user} do
