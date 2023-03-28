@@ -42,8 +42,6 @@ defmodule RoomHere.PropertyUserTest do
         |> RoomHere.Repo.get!(property.id)
         |> RoomHere.Repo.preload(:property_users)
 
-      Enum.map(property.property_users, &"property user id: #{&1.id}") |> IO.inspect()
-
       assert length(property.property_users) == 2
     end
 
