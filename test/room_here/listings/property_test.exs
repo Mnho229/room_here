@@ -1,13 +1,9 @@
 defmodule RoomHere.Listings.PropertyTest do
-  use RoomHere.DataCase
+  use RoomHere.DataCase, async: true
 
   alias RoomHere.Listings.Property
 
   describe "Property Changeset" do
-    setup do
-      :ok = Ecto.Adapters.SQL.Sandbox.checkout(RoomHere.Repo)
-    end
-
     test "changeset success" do
       params = RoomHere.Factory.params_for(:property)
 
