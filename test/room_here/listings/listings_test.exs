@@ -81,4 +81,13 @@ defmodule RoomHere.ListingsTest do
       assert %Ecto.Changeset{} = Listings.change_property(property)
     end
   end
+
+  describe "Custom Listings functions" do
+    test "list_properties_with_user/1" do
+      %{user: user} = RoomHere.Factory.insert(:property_user_primary)
+      RoomHere.Factory.insert_list(3, :property_user_primary, user: user)
+
+      assert length(Listings.list_properties_with_user(user)) == 4
+    end
+  end
 end

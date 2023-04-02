@@ -46,7 +46,10 @@ defmodule RoomHere.PropertyUserTest do
     end
 
     test "failure on lacking property", %{user: user} do
-      params = RoomHere.Factory.params_with_assocs(:property_user_primary, user: user)
+      params =
+        :property_user_primary
+        |> RoomHere.Factory.params_with_assocs(user: user)
+        |> Map.delete(:property_id)
 
       changeset_errors =
         %PropertyUser{}

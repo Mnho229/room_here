@@ -7,7 +7,8 @@ defmodule RoomHere.PropertyUserFactory do
         puser = %RoomHere.PropertyUser{
           id: sequence(:property_user_id, & &1),
           is_primary_user: false,
-          user: user
+          user: user,
+          property: RoomHere.Factory.build(:property)
         }
 
         merge_attributes(puser, attrs)
