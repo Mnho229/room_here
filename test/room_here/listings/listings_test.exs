@@ -2,10 +2,9 @@ defmodule RoomHere.ListingsTest do
   use RoomHere.DataCase
 
   alias RoomHere.Listings
+  alias RoomHere.Listings.Property
 
   describe "properties" do
-    alias RoomHere.Listings.Property
-
     import RoomHere.ListingsFixtures
 
     @invalid_attrs %{
@@ -82,7 +81,45 @@ defmodule RoomHere.ListingsTest do
     end
   end
 
-  describe "Custom Listings functions" do
+  describe "Upserting properties" do
+    setup do
+      user = RoomHere.Factory.insert(:user)
+
+      %{user: user}
+    end
+
+    test "success create a property", %{user: user} do
+      params = RoomHere.Factory.params_for(:property, slug: nil)
+
+      changeset = Listings.change_property(%Property{}, params)
+
+      assert {:ok, _} = Listings.upsert_property(user, :create, changeset)
+    end
+
+    test "success update a property", %{user: user} do
+      %{property: property} = RoomHere.Factory.insert(:property_user_primary, user: user)
+
+      changeset = Listings.change_property(property, %{title: "Quick Whiplash"})
+
+      {:ok, %{property: updated_property}} = Listings.upsert_property(user, :update, changeset)
+
+      assert updated_property.title == "Quick Whiplash"
+    end
+
+    test "failure on bad changeset update", %{user: user} do
+      %{property: property} = RoomHere.Factory.insert(:property_user_primary, user: user)
+
+      changeset =
+        Listings.change_property(property, %{
+          maximum_term: 3,
+          minimum_term: 12
+        })
+
+      assert {:error, :property, _, _} = Listings.upsert_property(user, :update, changeset)
+    end
+  end
+
+  describe "Other Listings functions" do
     test "list_properties_with_user/1" do
       %{user: user} = RoomHere.Factory.insert(:property_user_primary)
       RoomHere.Factory.insert_list(3, :property_user_primary, user: user)
