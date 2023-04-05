@@ -63,4 +63,17 @@ defmodule RoomHereWeb.ConnCase do
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
   end
+
+  def count_occurences_by_element_text(html, element_selector, keyword) do
+    html
+    |> Floki.parse_fragment!()
+    |> Floki.find(element_selector)
+    |> Enum.count(fn {_, _, [html_text]} ->
+      if is_tuple(html_text) do
+        false
+      else
+        String.contains?(html_text, keyword)
+      end
+    end)
+  end
 end
