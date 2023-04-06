@@ -37,5 +37,32 @@ defmodule RoomHereWeb.Properties.IndexTest do
       assert count_occurences_by_element_text(html, "a", "View") == 4
       assert count_occurences_by_element_text(html, "a", "Edit") == 2
     end
+
+    test "Page shows property upon clicking view", %{conn: conn, properties: properties} do
+      {:ok, view, _html} = live(conn, "/dashboard/properties")
+
+      [property | _rest] = properties
+
+      view
+      |> element(~s{[href="/dashboard/properties/#{property.id}"]}, "View")
+      |> render_click()
+
+      assert render(view) =~ "Close"
+    end
+
+    test "Page closes property view modal upon clicking close", %{
+      conn: conn,
+      properties: properties
+    } do
+      [property | _rest] = properties
+
+      {:ok, view, _html} = live(conn, "/dashboard/properties/#{property.id}")
+
+      view
+      |> element("button.pc-button", "Close")
+      |> render_click()
+
+      assert assert_patch(view) == "/dashboard/properties"
+    end
   end
 end
