@@ -23,6 +23,7 @@ defmodule RoomHereWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import RoomHereWeb.ConnCase
+      import RoomHere.TestHelperFunctions
 
       use RoomHereWeb, :verified_routes
 
