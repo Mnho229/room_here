@@ -28,6 +28,8 @@ defmodule RoomHere.Listings.Property do
       :first_available_date
     ])
     |> validate_minimum_term()
+    |> validate_number(:minimum_term, greater_than: 0)
+    |> validate_number(:maximum_term, greater_than: 0)
     |> unique_constraint(:slug)
   end
 
